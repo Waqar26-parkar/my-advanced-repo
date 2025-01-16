@@ -1,3 +1,10 @@
+variable "github_token" {
+  description = "GitHub Token used to authenticate with the GitHub API"
+  type        = string
+}
+
+
+
 provider "github" {
   token = var.github_token
   owner = "Waqar26-parkar"  # Use your personal account name here

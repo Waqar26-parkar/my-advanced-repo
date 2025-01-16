@@ -7,25 +7,34 @@ on:
 
 jobs:
   terraform:
+    name: 'Terraform Plan and Apply for GitHub Resources'
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set GitHub Token as Environment Variable
-        run: echo "GITHUB_TOKEN=${{ secrets.ACCESS_TOKEN }}" >> $GITHUB_ENV
-
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.4.0  # Adjust the version if necessary
 
+      - name: Set GitHub Token as Environment Variable
+        run: echo "GITHUB_TOKEN=${{ secrets.ACCESS_TOKEN }}" >> $GITHUB_ENV
+
       - name: Terraform Init
         run: terraform init
 
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        run: terraform validate
+
       - name: Terraform Plan
+        id: plan
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve tfplan
