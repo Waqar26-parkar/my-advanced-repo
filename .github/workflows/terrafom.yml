@@ -20,7 +20,7 @@ jobs:
           terraform_version: 1.4.0  # Adjust the version if necessary
 
       - name: Set GitHub Token as Environment Variable
-        run: echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+        run: echo "GITHUB_TOKEN=${{ secrets.ACCESS_TOKEN }}" >> $GITHUB_ENV
 
       - name: Terraform Init
         run: terraform init
