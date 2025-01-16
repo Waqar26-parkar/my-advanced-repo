@@ -17,5 +17,5 @@ resource "github_team" "new_team" {
 resource "github_team_membership" "dev_team_membership" {
   team_id    = github_team.new_team.id
   username   = "Waqar26-parkar"  # Replace with the username of the member you want to add to the team
-  role       = "member"
+  role       = "owner"
 }
