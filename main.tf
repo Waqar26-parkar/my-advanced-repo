@@ -1,17 +1,21 @@
 provider "github" {
-  token = var.github_token  # GitHub token is loaded from environment variable
-  owner = var.github_owner  # GitHub repository owner (GitHub username)
+  token = var.github_token  # This token will be passed from GitHub Actions as an environment variable
+  owner = "Waqar26-parkar"   # Replace with your GitHub username or organization
 }
 
-resource "github_repository" "my_repo" {
-  name        = "mycicd-terraform-repo"        # Name of the GitHub repository
-  description = "GitHub repository created using Terraform"
-  visibility  = "public"                   # Set to "private" if you want a private repo
-  auto_init   = true                       # Initialize the repository with a README
+resource "github_repository" "new_repo" {
+  name        = "new-githubcicd-repository"
+  description = "A new repository created by Terraform"
+  visibility  = "public"  # You can change this to "private" if you want
 }
 
-resource "github_repository_collaborator" "collaborator" {
-  repository = github_repository.my_repo.name
-  username   = var.collaborator_username  # GitHub collaborator username
-  permission = "push"                      # Give push permissions to the collaborator
+resource "github_team" "new_team" {
+  name        = "dev-team"
+  description = "Development Team"
+}
+
+resource "github_team_membership" "dev_team_membership" {
+  team_id    = github_team.new_team.id
+  username   = "Waqar26-parkar"  # Replace with the username of the member you want to add to the team
+  role       = "member"
 }
